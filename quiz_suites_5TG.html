@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Suites Arithmétiques et Géométriques - 5TG</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1E3A8A 0%, #F59E0B 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 1000px;
+            width: 100%;
+            padding: 40px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #1E3A8A 0%, #F59E0B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        #homeScreen { text-align: center; }
+
+        .button-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(30, 58, 138, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-secondary-light {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .btn-secondary-light:hover {
+            background: #dee2e6;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #1E3A8A;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #1E3A8A;
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+        }
+
+        #professorScreen { display: none; }
+
+        .code-display {
+            background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .code-display h3 {
+            font-size: 0.9em;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .code-display .code {
+            font-size: 3em;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 5px;
+        }
+
+        .professor-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .professor-controls button {
+            padding: 12px 20px;
+            font-size: 0.95em;
+        }
+
+        .leaderboard {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .leaderboard h3 {
+            margin-bottom: 15px;
+            color: #1E3A8A;
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .leaderboard-table th {
+            background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .leaderboard-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .leaderboard-table tr:hover {
+            background: #f0f0f0;
+        }
+
+        .rank-badge {
+            font-size: 0.8em;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rank-1 { background: #FCD34D; color: #333; }
+        .rank-2 { background: #C0C0C0; color: #333; }
+        .rank-3 { background: #CD7F32; color: white; }
+        .rank-other { background: #e9ecef; color: #666; }
+
+        #profLoginScreen { display: none; text-align: center; }
+
+        .login-form {
+            margin-top: 30px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #studentScreen { display: none; text-align: center; }
+
+        .access-form {
+            max-width: 400px;
+            margin: 30px auto;
+        }
+
+        #accessError {
+            color: #dc3545;
+            margin-top: 15px;
+            padding: 10px;
+            background: #f8d7da;
+            border-radius: 8px;
+        }
+
+        #quizContainer {
+            display: none;
+        }
+
+        #quizContainer.active {
+            display: block;
+        }
+
+        .quiz-header {
+            background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .quiz-progress {
+            font-size: 0.95em;
+        }
+
+        .quiz-score {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+        }
+
+        .question-number {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #1E3A8A;
+            font-weight: 500;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+        }
+
+        .option:hover {
+            border-color: #1E3A8A;
+            background: #f0f4ff;
+        }
+
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+            font-weight: 600;
+        }
+
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+            font-weight: 600;
+        }
+
+        .redaction-container {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .redaction-container textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 2px solid #1E3A8A;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: 'Arial', sans-serif;
+            resize: vertical;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .feedback.hidden {
+            display: none;
+        }
+
+        .timer {
+            font-size: 1.8em;
+            font-weight: bold;
+            padding: 10px 20px;
+            background: #F59E0B;
+            color: white;
+            border-radius: 50px;
+        }
+
+        .timer.warning {
+            background: #dc3545;
+            animation: pulse 0.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        #resultsContainer {
+            display: none;
+        }
+
+        #resultsContainer.active {
+            display: block;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .final-score {
+            font-size: 3em;
+            color: #1E3A8A;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .score-message {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .success-details {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid #28a745;
+        }
+
+        .correction-section {
+            background: #f8f9fa;
+            border-left: 5px solid #1E3A8A;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .correction-section h4 {
+            color: #1E3A8A;
+            margin-bottom: 10px;
+        }
+
+        .correction-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #F59E0B;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Suites Arithmétiques & Géométriques</h1>
+            <p>Quiz interactif - 5TG Gestion</p>
+            <p style="font-size: 0.85em; margin-top: 15px; color: #666; font-style: italic;">Réalisé par Mme Ghayati</p>
+        </div>
+
+        <!-- ÉCRAN D'ACCUEIL -->
+        <div id="homeScreen">
+            <h2>Bienvenue !</h2>
+            <p style="margin-top: 20px; color: #666;">Sélectionnez votre rôle :</p>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="goToProfLogin()">👨‍🏫 Professeur</button>
+                <button class="btn btn-secondary" onclick="goToStudentLogin()">👨‍🎓 Élève</button>
+            </div>
+        </div>
+
+        <!-- MODE PROFESSEUR - LOGIN -->
+        <div id="profLoginScreen">
+            <h2>Accès Professeur</h2>
+            <div class="login-form">
+                <div class="form-group">
+                    <label>Mot de passe professeur :</label>
+                    <input type="password" id="profPassword" placeholder="Entrez le mot de passe">
+                </div>
+                <button class="btn btn-primary" onclick="validateProfPassword()">Se connecter</button>
+                <button class="btn btn-secondary-light" onclick="goHome()" style="margin-left: 10px;">Retour</button>
+            </div>
+        </div>
+
+        <!-- MODE PROFESSEUR -->
+        <div id="professorScreen">
+            <h2>Tableau de bord Professeur</h2>
+
+            <div class="code-display">
+                <h3>Code d'accès pour les élèves :</h3>
+                <div class="code" id="accessCodeDisplay">SUITES</div>
+            </div>
+
+            <div class="professor-controls">
+                <button class="btn btn-primary" id="startBtn" onclick="startQuiz()">▶️ Démarrer le quiz</button>
+                <button class="btn btn-secondary" id="stopBtn" onclick="stopQuiz()" disabled>⏹️ Arrêter le quiz</button>
+                <button class="btn btn-success" onclick="exportCSV()">📥 Exporter résultats (CSV)</button>
+                <button class="btn btn-secondary-light" onclick="resetAllData()">🔄 Réinitialiser</button>
+            </div>
+
+            <div class="leaderboard">
+                <h3>📋 Classement en direct</h3>
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rang</th>
+                            <th>Nom</th>
+                            <th>Partie A (/20)</th>
+                            <th>Partie B (/7)</th>
+                            <th>Statut</th>
+                            <th>Heure</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody">
+                        <tr><td colspan="6" style="text-align: center; color: #999;">Aucun élève n'a commencé</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="correction-section">
+                <h3>📖 Correction complète</h3>
+                
+                <h4>Partie A - QCM (20 questions)</h4>
+                <div id="qcmCorrection"></div>
+
+                <h4 style="margin-top: 30px;">Partie B - Questions rédactionnelles (7 questions)</h4>
+                <div id="redactionCorrection"></div>
+            </div>
+
+            <button class="btn btn-secondary-light" onclick="goHome()" style="margin-top: 20px;">Retour</button>
+        </div>
+
+        <!-- MODE ÉLÈVE - LOGIN -->
+        <div id="studentScreen">
+            <h2>Accès Élève</h2>
+            <div class="access-form">
+                <div class="form-group">
+                    <label>Ton nom/pseudo :</label>
+                    <input type="text" id="studentName" placeholder="Ex: Marie Dupont">
+                </div>
+                <div class="form-group">
+                    <label>Code d'accès :</label>
+                    <input type="text" id="accessCodeInput" placeholder="Demande à ton professeur">
+                </div>
+                <button class="btn btn-primary" onclick="validateAccess()">Commencer le quiz</button>
+                <button class="btn btn-secondary-light" onclick="goHome()" style="margin-left: 10px;">Retour</button>
+                <div id="accessError" class="hidden"></div>
+            </div>
+        </div>
+
+        <!-- QUIZ ÉLÈVE -->
+        <div id="quizContainer">
+            <div class="quiz-header">
+                <div class="quiz-progress">
+                    Question <span id="currentQuestion">1</span> / <span id="totalQuestions">27</span>
+                </div>
+                <div class="quiz-score">Score : <span id="currentScore">0</span></div>
+                <div class="timer" id="timer">20</div>
+            </div>
+
+            <div class="question-container">
+                <div class="question-number" id="qType">QCM</div>
+                <div class="question-text" id="questionText"></div>
+                
+                <div id="optionsContainer" class="options-container"></div>
+                <div id="redactionField"></div>
+
+                <div id="feedback" class="feedback hidden"></div>
+            </div>
+        </div>
+
+        <!-- RÉSULTATS -->
+        <div id="resultsContainer">
+            <div class="results-header">
+                <h2>Quiz Terminé ! 🎉</h2>
+                <div class="final-score" id="finalScore">0/27</div>
+                <div class="score-message" id="scoreMessage"></div>
+            </div>
+
+            <div class="success-details" id="successDetails"></div>
+
+            <button class="btn btn-primary" onclick="resetStudent()">Nouveau quiz</button>
+            <button class="btn btn-secondary-light" onclick="goHome()" style="margin-left: 10px;">Retour</button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== DONNÉES & ÉTAT ====================
+        
+        const questions = [
+            // QCM Partie A (20 questions)
+            { type: 'qcm', question: '1. Une suite arithmétique est une suite dont :', options: ['A) on ajoute toujours le même nombre', 'B) on multiplie toujours par le même nombre', 'C) les termes sont tous positifs', 'D) les termes diminuent toujours'], correct: 0 },
+            { type: 'qcm', question: '2. Dans une suite géométrique, le nombre constant s\'appelle :', options: ['A) la différence', 'B) la raison q', 'C) le quotient n', 'D) le premier terme'], correct: 1 },
+            { type: 'qcm', question: '3. Si u₁=5 et r=3, alors u₂ vaut :', options: ['A) 2', 'B) 8', 'C) 15', 'D) 53'], correct: 1 },
+            { type: 'qcm', question: '4. Si u₁=4 et q=2, alors u₂ vaut :', options: ['A) 2', 'B) 6', 'C) 8', 'D) 16'], correct: 2 },
+            { type: 'qcm', question: '5. La suite 7 ; 11 ; 15 ; 19 est :', options: ['A) géométrique de raison 4', 'B) arithmétique de raison 4', 'C) arithmétique de raison 3', 'D) ni arithmétique ni géométrique'], correct: 1 },
+            { type: 'qcm', question: '6. La suite 3 ; 9 ; 27 ; 81 est :', options: ['A) arithmétique de raison 6', 'B) géométrique de raison 3', 'C) géométrique de raison 9', 'D) ni arithmétique ni géométrique'], correct: 1 },
+            { type: 'qcm', question: '7. Si u₁=6 et r=5, alors u₅ vaut :', options: ['A) 11', 'B) 20', 'C) 26', 'D) 30'], correct: 2 },
+            { type: 'qcm', question: '8. Si u₁=3 et q=4, alors u₄ vaut :', options: ['A) 12', 'B) 48', 'C) 64', 'D) 192'], correct: 3 },
+            { type: 'qcm', question: '9. Une suite arithmétique vérifie u₁=12 et u₄=21. Sa raison vaut :', options: ['A) 2', 'B) 3', 'C) 4', 'D) 9'], correct: 1 },
+            { type: 'qcm', question: '10. Une suite géométrique vérifie u₁=5 et u₃=45. Si q > 0, alors q vaut :', options: ['A) 2', 'B) 3', 'C) 4', 'D) 9'], correct: 1 },
+            { type: 'qcm', question: '11. Pour suite arithmétique u₁=8, r=4, la formule correcte est :', options: ['A) uₙ=8+4n', 'B) uₙ=8+4(n-1)', 'C) uₙ=8×4ⁿ⁻¹', 'D) uₙ=4+8(n-1)'], correct: 1 },
+            { type: 'qcm', question: '12. Pour suite géométrique u₁=7, q=2, la formule correcte est :', options: ['A) uₙ=7+2(n-1)', 'B) uₙ=2×7ⁿ⁻¹', 'C) uₙ=7×2ⁿ⁻¹', 'D) uₙ=7×2n'], correct: 2 },
+            { type: 'qcm', question: '13. Entreprise augmente budget de 200€ chaque mois. Budget m1=1000€. Budget m₅ vaut :', options: ['A) 1 200 €', 'B) 1 800 €', 'C) 2 000 €', 'D) 2 200 €'], correct: 1 },
+            { type: 'qcm', question: '14. Stock multiplié par 3 chaque semaine. Stock initial=4. Stock semaine 4 vaut :', options: ['A) 12', 'B) 36', 'C) 81', 'D) 108'], correct: 3 },
+            { type: 'qcm', question: '15. Somme 10 premiers termes suite arithmétique u₁=5, r=3 :', options: ['A) 140', 'B) 185', 'C) 190', 'D) 200'], correct: 1 },
+            { type: 'qcm', question: '16. Somme 5 premiers termes suite géométrique 2 ; 6 ; 18 ; ... :', options: ['A) 120', 'B) 180', 'C) 242', 'D) 486'], correct: 2 },
+            { type: 'qcm', question: '17. Si u₁=20, r=-2 et uₙ=8, alors n vaut :', options: ['A) 5', 'B) 6', 'C) 7', 'D) 8'], correct: 2 },
+            { type: 'qcm', question: '18. Si u₁=3, q=2 et uₙ=96, alors n vaut :', options: ['A) 5', 'B) 6', 'C) 7', 'D) 8'], correct: 1 },
+            { type: 'qcm', question: '19. Suite arithmétique : u₃=14 et u₈=34. Le premier terme u₁ vaut :', options: ['A) 2', 'B) 6', 'C) 10', 'D) 14'], correct: 1 },
+            { type: 'qcm', question: '20. Suite géométrique : u₂=12 et u₅=324. La raison q > 0 vaut :', options: ['A) 2', 'B) 3', 'C) 4', 'D) 6'], correct: 1 },
+
+            // Questions rédactionnelles Partie B
+            { type: 'redaction', question: '21. Suite arithmétique u₁=9, r=4. Calcule : u₆, formule uₙ, S₆', answer: 'u₆=29 ; uₙ=9+4(n-1) ; S₆=114' },
+            { type: 'redaction', question: '22. Ventes mensuelles : m1=250, +50 articles chaque mois. Calcule : nature, u₈, total 8 mois', answer: 'Arithmétique (r=50) ; u₈=600 ; S₈=3400' },
+            { type: 'redaction', question: '23. Suite géométrique u₁=5, q=3. Calcule : u₅, formule uₙ, S₅', answer: 'u₅=405 ; uₙ=5×3ⁿ⁻¹ ; S₅=1210' },
+            { type: 'redaction', question: '24. Investissement annuel : a1=1000€, ×2 chaque année. Calcule : u₅, S₅', answer: 'u₅=16000€ ; S₅=31000€' },
+            { type: 'redaction', question: '25. Suite : 6 ; 18 ; 54 ; 162 ; ... Montre que c\'est géométrique. Donne u₁, q, u₇', answer: 'Géométrique (18/6=3, 54/18=3, 162/54=3) ; u₁=6, q=3 ; u₇=4374' },
+            { type: 'redaction', question: '26. Suite arithmétique u₄=17, u₉=42. Calcule : raison r, u₁, S₉', answer: 'r=5 ; u₁=2 ; S₉=198' },
+            { type: 'redaction', question: '27. Clients : m1=300, +75/mois. Modélise. Mois d\'atteindre 900 ? Total 8 mois ?', answer: 'uₙ=300+75(n-1) ; n=9 (mois 9) ; S₈=4500' }
+        ];
+
+        let appState = {
+            accessCode: 'SUITES',
+            quizStarted: false,
+            profPassword: 'SUITES2024',
+            students: [],
+            currentStudent: null,
+            currentQuestion: 0,
+            score: 0,
+            answers: [],
+            timerInterval: null
+        };
+
+        // Charger état local
+        function loadState() {
+            const saved = localStorage.getItem('quizAppState');
+            if (saved) {
+                appState = { ...appState, ...JSON.parse(saved) };
+                appState.timerInterval = null;
+            }
+        }
+
+        function saveState() {
+            const toSave = { ...appState };
+            toSave.timerInterval = null;
+            localStorage.setItem('quizAppState', JSON.stringify(toSave));
+        }
+
+        // ==================== NAVIGATION ====================
+        function goHome() {
+            stopTimer();
+            document.getElementById('homeScreen').style.display = 'block';
+            document.getElementById('professorScreen').style.display = 'none';
+            document.getElementById('profLoginScreen').style.display = 'none';
+            document.getElementById('studentScreen').style.display = 'none';
+            document.getElementById('quizContainer').classList.remove('active');
+            document.getElementById('resultsContainer').classList.remove('active');
+        }
+
+        function goToProfLogin() {
+            document.getElementById('homeScreen').style.display = 'none';
+            document.getElementById('profLoginScreen').style.display = 'block';
+        }
+
+        function goToStudentLogin() {
+            document.getElementById('homeScreen').style.display = 'none';
+            document.getElementById('studentScreen').style.display = 'block';
+        }
+
+        // ==================== MODE PROFESSEUR ====================
+        function validateProfPassword() {
+            const pwd = document.getElementById('profPassword').value;
+            if (pwd === appState.profPassword) {
+                document.getElementById('profLoginScreen').style.display = 'none';
+                document.getElementById('professorScreen').style.display = 'block';
+                buildCorrectionDisplay();
+                updateLeaderboard();
+            } else {
+                alert('❌ Mot de passe incorrect');
+            }
+        }
+
+        function buildCorrectionDisplay() {
+            let qcmHtml = '<table class="leaderboard-table" style="margin-bottom: 20px;"><thead><tr><th>Q</th><th>Réponse</th><th>Q</th><th>Réponse</th></tr></thead><tbody>';
+            for (let i = 0; i < 10; i++) {
+                const answers = ['A', 'B', 'C', 'D'];
+                qcmHtml += `<tr><td><strong>${i+1}</strong></td><td>${answers[questions[i].correct]}</td>`;
+                qcmHtml += `<td><strong>${i+11}</strong></td><td>${answers[questions[i+10].correct]}</td></tr>`;
+            }
+            qcmHtml += '</tbody></table>';
+            document.getElementById('qcmCorrection').innerHTML = qcmHtml;
+
+            let redHtml = '';
+            for (let i = 20; i < 27; i++) {
+                redHtml += `<div class="correction-item"><strong>Q${i+1}.</strong> ${questions[i].question}<br><em>Réponse :</em> ${questions[i].answer}</div>`;
+            }
+            document.getElementById('redactionCorrection').innerHTML = redHtml;
+        }
+
+        function startQuiz() {
+            appState.quizStarted = true;
+            saveState();
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('stopBtn').disabled = false;
+            alert('✅ Quiz démarré ! Code : ' + appState.accessCode);
+        }
+
+        function stopQuiz() {
+            appState.quizStarted = false;
+            saveState();
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+            alert('⏹️ Quiz arrêté');
+        }
+
+        function resetAllData() {
+            if (confirm('⚠️ Êtes-vous sûr ? Cela supprimera tous les résultats.')) {
+                appState.students = [];
+                saveState();
+                updateLeaderboard();
+                alert('🔄 Données réinitialisées');
+            }
+        }
+
+        function updateLeaderboard() {
+            const sorted = [...appState.students].sort((a, b) => b.score - a.score);
+            const tbody = document.getElementById('leaderboardBody');
+
+            if (sorted.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #999;">Aucun élève n\'a commencé</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = sorted.map((student, index) => {
+                const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : 'rank-other';
+                // Compter rédactions soumises
+                const redactionCount = student.redactionCount || 0;
+                return `<tr>
+                    <td><span class="rank-badge ${rankClass}">${index + 1}</span></td>
+                    <td><strong>${student.name}</strong></td>
+                    <td><strong>${student.score}/20</strong></td>
+                    <td style="text-align: center;"><strong>${redactionCount}/7</strong></td>
+                    <td>${student.completed ? '✅ Terminé' : '⏳ En cours'}</td>
+                    <td>${student.timestamp}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        function exportCSV() {
+            if (appState.students.length === 0) {
+                alert('Aucune donnée à exporter.');
+                return;
+            }
+
+            const sorted = [...appState.students].sort((a, b) => b.score - a.score);
+            
+            // Générer HTML coloré
+            let html = `<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats Quiz Suites - 5TG</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f5f5f5;
+            margin: 20px;
+            color: #333;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+        
+        .synthese {
+            background: white;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .synthese h2 {
+            color: #1E3A8A;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            border-bottom: 3px solid #F59E0B;
+            padding-bottom: 10px;
+        }
+        
+        .synthese table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .synthese th {
+            background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .synthese td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .synthese tr:hover {
+            background: #f0f4ff;
+        }
+        
+        .synthese tr:nth-child(2) {
+            background: #fffacd;
+        }
+        
+        .details-title {
+            color: #1E3A8A;
+            font-size: 1.4em;
+            margin: 40px 0 20px 0;
+            border-left: 5px solid #F59E0B;
+            padding-left: 15px;
+        }
+        
+        .eleve-section {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #1E3A8A;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .eleve-nom {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #1E3A8A;
+            margin-bottom: 15px;
+        }
+        
+        .eleve-stats {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            border-left: 4px solid #28a745;
+        }
+        
+        .redactions-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .redactions-table th {
+            background: #f8f9fa;
+            color: #1E3A8A;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #1E3A8A;
+            font-weight: 600;
+        }
+        
+        .redactions-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+            word-wrap: break-word;
+        }
+        
+        .redactions-table tr:hover {
+            background: #f9f9f9;
+        }
+        
+        .question-col {
+            width: 8%;
+            font-weight: bold;
+            color: #1E3A8A;
+        }
+        
+        .eleve-col {
+            width: 46%;
+            color: #1E3A8A;
+            font-weight: 500;
+        }
+        
+        .attendue-col {
+            width: 46%;
+            color: #333;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9em;
+            border-top: 2px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>📊 Quiz Suites Arithmétiques & Géométriques</h1>
+    <p>Résultats complets - 5TG Gestion</p>
+    <p><em>Réalisé par Mme Ghayati</em></p>
+</div>
+
+<div class="synthese">
+    <h2>📋 Synthèse générale</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Rang</th>
+                <th>Nom</th>
+                <th>Partie A (/20)</th>
+                <th>Partie B (/7)</th>
+                <th>Statut</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>`;
+        
+        sorted.forEach((student, index) => {
+            html += `
+            <tr>
+                <td><strong>${index + 1}</strong></td>
+                <td><strong style="color: #1E3A8A;">${student.name}</strong></td>
+                <td>${student.score}/20</td>
+                <td>${student.redactionCount}/7</td>
+                <td>${student.completed ? '✅ Terminé' : '⏳ En cours'}</td>
+                <td>${student.timestamp}</td>
+            </tr>`;
+        });
+        
+        html += `
+        </tbody>
+    </table>
+</div>
+
+<h2 class="detials-title">📝 Détail Partie B - Rédactions par élève</h2>`;
+
+        // Détails par élève
+        sorted.forEach((student) => {
+            html += `
+<div class="eleve-section">
+    <div class="eleve-nom">✏️ ${student.name}</div>
+    <div class="eleve-stats">
+        ✅ Score Partie A: <strong>${student.score}/20</strong>  |  📊 Rédactions soumises: <strong>${student.redactionCount}/7</strong>  |  📅 ${student.timestamp}
+    </div>
+    
+    <table class="redactions-table">
+        <thead>
+            <tr>
+                <th class="question-col">Question</th>
+                <th class="eleve-col">Réponse de l'élève</th>
+                <th class="attendue-col">Réponse attendue</th>
+            </tr>
+        </thead>
+        <tbody>`;
+            
+            if (student.answers) {
+                student.answers.forEach((ans) => {
+                    if (ans.isRedaction) {
+                        const questionNum = ans.question + 1;
+                        const studentAnswer = ans.studentAnswer || '(pas de réponse)';
+                        const correctAnswer = ans.correctAnswer;
+                        
+                        html += `
+            <tr>
+                <td class="question-col"><strong>Q${questionNum}</strong></td>
+                <td class="eleve-col">${studentAnswer}</td>
+                <td class="attendue-col">${correctAnswer}</td>
+            </tr>`;
+                    }
+                });
+            }
+            
+            html += `
+        </tbody>
+    </table>
+</div>`;
+        });
+        
+        html += `
+<div class="footer">
+    <p>Généré le ${new Date().toLocaleString('fr-BE')}</p>
+    <p>Quiz Suites Arithmétiques & Géométriques - 5TG Gestion</p>
+</div>
+
+</body>
+</html>`;
+
+        // Télécharger le fichier HTML
+        const blob = new Blob([html], { type: 'text/html;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', `quiz_suites_resultats_${new Date().toISOString().split('T')[0]}.html`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        alert('📥 Fichier HTML téléchargé !\n\nFormat: Synthèse générale + Détails complets Partie B par élève\nCouleurs: Noms en bleu gras | Scores en vert');
+        }
+
+        // ==================== MODE ÉLÈVE ====================
+        function validateAccess() {
+            const name = document.getElementById('studentName').value.trim();
+            const code = document.getElementById('accessCodeInput').value.trim().toUpperCase();
+            const errorDiv = document.getElementById('accessError');
+
+            if (!name) {
+                errorDiv.textContent = '⚠️ Veuillez entrer votre nom/pseudo.';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            if (!code) {
+                errorDiv.textContent = '⚠️ Veuillez entrer le code d\'accès.';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            if (!appState.accessCode) {
+                errorDiv.textContent = '❌ Le professeur n\'a pas configuré de code. Contactez votre professeur.';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            if (code !== appState.accessCode) {
+                errorDiv.textContent = '❌ Code d\'accès incorrect.';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            if (!appState.quizStarted) {
+                errorDiv.textContent = '❌ Le quiz n\'a pas encore démarré. Contactez votre professeur.';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            appState.currentStudent = {
+                name: name,
+                score: 0,
+                answers: [],
+                timestamp: new Date().toLocaleString('fr-BE')
+            };
+
+            startStudentQuiz();
+        }
+
+        function startStudentQuiz() {
+            document.getElementById('studentScreen').style.display = 'none';
+            document.getElementById('quizContainer').classList.add('active');
+            document.getElementById('resultsContainer').classList.remove('active');
+            appState.currentQuestion = 0;
+            appState.score = 0;
+            appState.answers = [];
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            if (appState.currentQuestion >= questions.length) {
+                finishQuiz();
+                return;
+            }
+
+            const q = questions[appState.currentQuestion];
+            document.getElementById('questionText').textContent = q.question;
+            document.getElementById('currentQuestion').textContent = appState.currentQuestion + 1;
+            document.getElementById('totalQuestions').textContent = questions.length;
+            document.getElementById('currentScore').textContent = appState.score + '/20 (Partie A)';
+            document.getElementById('qType').textContent = q.type === 'qcm' ? 'QCM (Partie A)' : 'Rédaction (Partie B - Non notée)';
+
+            if (q.type === 'qcm') {
+                document.getElementById('redactionField').innerHTML = '';
+                const container = document.getElementById('optionsContainer');
+                container.innerHTML = '';
+                q.options.forEach((option, index) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option';
+                    btn.textContent = option;
+                    btn.onclick = () => selectAnswer(index);
+                    container.appendChild(btn);
+                });
+            } else {
+                document.getElementById('optionsContainer').innerHTML = '';
+                const textarea = document.createElement('textarea');
+                textarea.id = 'studentAnswer';
+                textarea.placeholder = 'Écris ta réponse ici...';
+                document.getElementById('redactionField').innerHTML = `
+                    <div class="redaction-container">
+                        <textarea id="studentAnswer" placeholder="Écris ta réponse ici (calculs, justifications)..."></textarea>
+                        <button class="btn btn-success" style="margin-top: 10px; width: 100%;" onclick="submitRedaction()">Valider</button>
+                    </div>
+                `;
+            }
+
+            document.getElementById('feedback').classList.add('hidden');
+            startTimer();
+        }
+
+        function selectAnswer(index) {
+            stopTimer();
+            const q = questions[appState.currentQuestion];
+            const isCorrect = index === q.correct;
+
+            appState.answers.push({
+                question: appState.currentQuestion,
+                selected: index,
+                correct: q.correct,
+                isCorrect: isCorrect
+            });
+
+            // Seules les questions QCM (0-19) comptent pour le score
+            if (isCorrect && appState.currentQuestion < 20) appState.score++;
+
+            const options = document.querySelectorAll('.option');
+            options.forEach((opt, i) => {
+                opt.style.pointerEvents = 'none';
+                if (i === q.correct) opt.classList.add('correct');
+                else if (i === index && !isCorrect) opt.classList.add('incorrect');
+            });
+
+            const feedbackDiv = document.getElementById('feedback');
+            feedbackDiv.style.background = isCorrect ? '#d4edda' : '#f8d7da';
+            feedbackDiv.style.color = isCorrect ? '#155724' : '#721c24';
+            feedbackDiv.textContent = isCorrect ? '✅ Correct !' : '❌ Incorrect. Réponse : ' + questions[appState.currentQuestion].options[q.correct];
+            feedbackDiv.classList.remove('hidden');
+
+            setTimeout(() => {
+                appState.currentQuestion++;
+                displayQuestion();
+            }, 2000);
+        }
+
+        function submitRedaction() {
+            stopTimer();
+            const answer = document.getElementById('studentAnswer').value.trim();
+            appState.answers.push({
+                question: appState.currentQuestion,
+                studentAnswer: answer,
+                correctAnswer: questions[appState.currentQuestion].answer,
+                isRedaction: true
+            });
+            // La Partie B n'ajoute pas de points - juste enregistrement
+
+            const feedbackDiv = document.getElementById('feedback');
+            feedbackDiv.style.background = '#d4edda';
+            feedbackDiv.style.color = '#155724';
+            feedbackDiv.textContent = '✅ Réponse enregistrée (non notée)';
+            feedbackDiv.classList.remove('hidden');
+
+            setTimeout(() => {
+                appState.currentQuestion++;
+                displayQuestion();
+            }, 1500);
+        }
+
+        function startTimer() {
+            // 40 sec pour Partie A (QCM), 90 sec pour Partie B (rédactions)
+            let timeLeft = appState.currentQuestion < 20 ? 40 : 90;
+            const timerEl = document.getElementById('timer');
+
+            appState.timerInterval = setInterval(() => {
+                timeLeft--;
+                timerEl.textContent = timeLeft;
+
+                if (timeLeft <= 10) timerEl.classList.add('warning');
+
+                if (timeLeft <= 0) {
+                    stopTimer();
+                    appState.currentQuestion++;
+                    displayQuestion();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (appState.timerInterval) {
+                clearInterval(appState.timerInterval);
+                appState.timerInterval = null;
+            }
+            document.getElementById('timer').classList.remove('warning');
+        }
+
+        function finishQuiz() {
+            stopTimer();
+            
+            // Compter les rédactions soumises
+            const redactionCount = appState.answers.filter(a => a.isRedaction && a.studentAnswer).length;
+            
+            appState.currentStudent.score = appState.score;
+            appState.currentStudent.redactionCount = redactionCount;
+            appState.currentStudent.completed = true;
+            appState.currentStudent.answers = appState.answers; // Stocker toutes les réponses
+            appState.students.push(appState.currentStudent);
+            saveState();
+
+            document.getElementById('quizContainer').classList.remove('active');
+            document.getElementById('resultsContainer').classList.add('active');
+
+            const percentage = Math.round((appState.score / 20) * 100);
+            document.getElementById('finalScore').textContent = `${appState.score}/20 (${percentage}%)`;
+
+            let message = '';
+            if (appState.score >= 19) message = '🌟 Parfait ! Excellent travail !';
+            else if (appState.score >= 17) message = '⭐ Très bien ! Continue comme ça !';
+            else if (appState.score >= 14) message = '👍 Bien ! Il y a des progrès.';
+            else if (appState.score >= 11) message = '📚 À revoir... Plus de pratique !';
+            else message = '💪 Persévère ! Tu vas y arriver.';
+
+            document.getElementById('scoreMessage').textContent = message;
+
+            let details = '<strong>Résumé :</strong><br>';
+            let correctQcm = appState.answers.filter(a => !a.isRedaction && a.isCorrect).length;
+            let redactions = appState.answers.filter(a => a.isRedaction).length;
+            details += `✅ <strong>Partie A (QCM)</strong> : ${correctQcm}/20 bonnes réponses<br>`;
+            details += `📝 <strong>Partie B (Rédactions)</strong> : ${redactions}/7 soumises (non notées - à corriger)<br>`;
+            details += `📊 <strong>Score final</strong> : ${appState.score}/20 points`;
+            document.getElementById('successDetails').innerHTML = details;
+
+            if (appState.students) updateLeaderboard();
+        }
+
+        function resetStudent() {
+            appState.currentStudent = null;
+            appState.currentQuestion = 0;
+            appState.score = 0;
+            appState.answers = [];
+
+            document.getElementById('studentScreen').style.display = 'block';
+            document.getElementById('quizContainer').classList.remove('active');
+            document.getElementById('resultsContainer').classList.remove('active');
+            document.getElementById('accessCodeInput').value = '';
+            document.getElementById('studentName').value = '';
+            document.getElementById('accessError').classList.add('hidden');
+        }
+
+        // Initialiser
+        window.addEventListener('load', () => {
+            loadState();
+            goHome();
+        });
+    </script>
+</body>
+</html>
